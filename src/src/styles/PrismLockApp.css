@@ -1,0 +1,42 @@
+.prism-app {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #f6f7fb 0%, #ffffff 60%);
+}
+
+.app-content {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3rem;
+}
+
+.tab-navigation {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.tab-button {
+  flex: 1;
+  padding: 0.85rem 1rem;
+  border-radius: 9999px;
+  border: 1px solid #d1d5db;
+  background-color: white;
+  color: #111827;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tab-button.active {
+  background-color: #1f2937;
+  color: white;
+  border-color: #1f2937;
+  box-shadow: 0 10px 15px -3px rgba(31, 41, 55, 0.2);
+}
+
+@media (max-width: 640px) {
+  .tab-navigation {
+    flex-direction: column;
+  }
+}
