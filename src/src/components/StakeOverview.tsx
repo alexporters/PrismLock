@@ -46,23 +46,36 @@ export function StakeOverview() {
   });
 
   const summary: StakeSummary | null = useMemo(() => {
-    if (!summaryResult.data) {
+    const data = summaryResult.data;
+    if (!data) {
       return null;
     }
-    const tuple = summaryResult.data as unknown as [
-      string,
-      bigint,
-      bigint,
-      bigint,
-      boolean,
-      boolean
-    ];
-    const [encryptedAmount, start, unlock, duration, requested, exists] = tuple;
+
+    const raw =
+      Array.isArray(data) || typeof data === 'object'
+        ? (data as Record<string | number, unknown>)
+        : null;
+
+    if (!raw) {
+      return null;
+    }
+
+    const encryptedAmount = (raw as Record<string | number, unknown>).encryptedAmount ?? raw[0];
+    const start = raw.startTimestamp ?? raw[1];
+    const unlock = raw.unlockTimestamp ?? raw[2];
+    const duration = raw.lockDuration ?? raw[3];
+    const requested = raw.withdrawalRequested ?? raw[4];
+    const exists = raw.exists ?? raw[5];
+
+    if (typeof encryptedAmount !== 'string') {
+      return null;
+    }
+
     return {
       encryptedAmount,
-      startTimestamp: Number(start),
-      unlockTimestamp: Number(unlock),
-      lockDuration: Number(duration),
+      startTimestamp: Number(start ?? 0),
+      unlockTimestamp: Number(unlock ?? 0),
+      lockDuration: Number(duration ?? 0),
       withdrawalRequested: Boolean(requested),
       exists: Boolean(exists),
     };
